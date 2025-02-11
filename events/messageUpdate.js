@@ -2,7 +2,6 @@ const config = require(`../data/config`);
 
 module.exports = {
   name: "messageUpdate",
-  tier: null,
   async execute(client, oldMessage, newMessage) {
     if (
       !oldMessage.guild ||
