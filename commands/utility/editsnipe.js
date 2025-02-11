@@ -3,5 +3,5 @@ module.exports = {
   description: "snipe edits",
   aliases: ["es"],
   cooldown: 5,
-  run: async (client, message, args, { slowmode }) => {},
+  run: async (client, message, args) => {},
 };
