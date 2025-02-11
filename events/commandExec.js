@@ -5,7 +5,6 @@ const fs = require("fs");
 
 module.exports = {
   name: "messageCreate",
-  tier: null,
   async execute(client, message) {
     let prefix = config.prefix || ",";
 
