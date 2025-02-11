@@ -2,7 +2,6 @@ const config = require(`../data/config`);
 
 module.exports = {
   name: "messageDelete",
-  tier: null,
   async execute(client, message) {
     if (!message.guild || !message.channel || message.author.bot) return;
 
