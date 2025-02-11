@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require("discord.js");
 const config = require(`../data/config`);
 const axios = require("axios");
 const fs = require("fs");
@@ -6,16 +7,10 @@ module.exports = {
   name: "messageCreate",
   tier: null,
   async execute(client, message) {
-    let prefix = "";
-
-    if (client.configCache && client.configCache.customPrefix !== null) {
-      prefix = client.configCache.customPrefix;
-    } else {
-      prefix = "";
-    }
+    let prefix = config.prefix || ",";
 
     if (message.author.bot) return;
-    if (message.content.indexOf(prefix) !== 0) return;
+    if (!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
@@ -29,18 +24,24 @@ module.exports = {
 
     try {
       if (cmd.disabled) {
-        return message?.reply(
-          `\`WARNING\`\n-# **${client.configCache.customPrefix}${command}** is currently disabled.`
-        );
+        const embed = new EmbedBuilder()
+          .setColor("Yellow")
+          .setTitle("⚠️ WARNING")
+          .setDescription(`> *The command is currently disabled.*\n> \`${prefix}${command}\``);
+        return message.reply({ embeds: [embed] });
       }
-      
+
       const lastUsed = client.cooldowns.get(`cmd_${cmd.name}`) || 0;
       const remainingTime = lastUsed - Date.now();
-      
+
       if (remainingTime > 0) {
         const unixTime = Math.floor(lastUsed / 1000);
-        let msg = await message.reply(`\`COOLDOWN\`\n-# Cooldown ends <t:${unixTime}:R>`);
-      
+        const embed = new EmbedBuilder()
+          .setColor("Red")
+          .setTitle("⏳ COOLDOWN")
+          .setDescription(`> *This command is on cooldown for you.*\n> Cooldown expires <t:${unixTime}:R>`);
+          
+        let msg = await message.reply({ embeds: [embed] });
         setTimeout(() => msg.delete(), 5000);
         return;
       }
@@ -61,9 +62,11 @@ module.exports = {
       cmd.run(client, message, args);
     } catch (error) {
       console.error("ERROR: ", error);
-      return message?.reply(
-        `\`ERROR\`\n-# An error occurred while trying to execute: \`${prefix}${command}\``
-      );
+      const embed = new EmbedBuilder()
+        .setColor("Red")
+        .setTitle("❌ ERROR")
+        .setDescription(`> *An error occurred while executing the command.*\n> Command: \`${prefix}${command}\``);
+      return message.reply({ embeds: [embed] });
     }
   },
 };
