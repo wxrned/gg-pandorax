@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "snipe",
-  description: "Snipe the last deleted message in the channel.",
+  description: "snipe messages",
   aliases: ["s"],
   cooldown: 5,
   run: async (client, message, args) => {
