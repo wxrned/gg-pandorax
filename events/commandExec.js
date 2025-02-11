@@ -41,14 +41,9 @@ module.exports = {
         const unixTime = Math.floor(lastUsed / 1000);
         let msg = await message.reply(`\`COOLDOWN\`\n-# Cooldown ends <t:${unixTime}:R>`);
       
-        setTimeout(() => msg.delete(), 3000);
+        setTimeout(() => msg.delete(), 5000);
         return;
       }
-
-      const slowmode =
-        message.channel.type !== "DM" &&
-        message.channel.type !== "GROUP_DM" &&
-        message.channel.rateLimitPerUser > 0;
 
       const logMessage = `[${new Date().toISOString()}] ${command} | ${args.join(
         " "
@@ -63,7 +58,7 @@ module.exports = {
           Date.now() + (cmd.cooldown ? cmd.cooldown * 1000 : 0)
         );
 
-      cmd.run(client, message, args, { slowmode });
+      cmd.run(client, message, args);
     } catch (error) {
       console.error("ERROR: ", error);
       return message?.reply(
