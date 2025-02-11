@@ -18,7 +18,7 @@ module.exports = {
       attachments: message.attachments.map((a) => a.url),
     });
 
-    if (channelSnipes.length > 10) channelSnipes.pop();
+    if (channelSnipes.length > 25) channelSnipes.pop();
 
     client.snipes.set(message.channel.id, channelSnipes);
   },
