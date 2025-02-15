@@ -1,4 +1,4 @@
-const config = require(`../data/config`);
+const config = require(`../config`);
 
 module.exports = {
   name: "messageDelete",

@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const config = require(`../data/config`);
+const config = require(`../config`);
 const axios = require("axios");
 const fs = require("fs");
 
@@ -26,7 +26,9 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setColor("Yellow")
           .setTitle("⚠️ WARNING")
-          .setDescription(`> *The command is currently disabled.*\n> \`${prefix}${command}\``);
+          .setDescription(
+            `> *The command is currently disabled.*\n> \`${prefix}${command}\``
+          );
         return message.reply({ embeds: [embed] });
       }
 
@@ -38,8 +40,10 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setColor("Red")
           .setTitle("⏳ COOLDOWN")
-          .setDescription(`> *This command is on cooldown for you.*\n> Cooldown expires <t:${unixTime}:R>`);
-          
+          .setDescription(
+            `> *This command is on cooldown for you.*\n> Cooldown expires <t:${unixTime}:R>`
+          );
+
         let msg = await message.reply({ embeds: [embed] });
         setTimeout(() => msg.delete(), 5000);
         return;
@@ -64,7 +68,9 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor("Red")
         .setTitle("❌ ERROR")
-        .setDescription(`> *An error occurred while executing the command.*\n> Command: \`${prefix}${command}\``);
+        .setDescription(
+          `> *An error occurred while executing the command.*\n> Command: \`${prefix}${command}\``
+        );
       return message.reply({ embeds: [embed] });
     }
   },
